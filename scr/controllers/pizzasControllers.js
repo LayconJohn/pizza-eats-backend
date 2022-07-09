@@ -4,7 +4,6 @@ import { pedidoSchema } from "../schemas/pedidosSchema.js";
 
 export async function adicionarPizza(req, res) {
     const { image, name, description, price } = req.body;
-    console.log( {image: image, name: name, description: description, price: price} )
 
     const validate = pedidoSchema.validate( { image, name, description, price } );
 
