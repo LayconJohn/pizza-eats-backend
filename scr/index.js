@@ -15,7 +15,7 @@ app.use(express.json());
 
 app.use(pizzaRoutes);
 app.use(bebidaRoutes);
-app.use(acompanhamentoRoutes)
+app.use(acompanhamentoRoutes);
 app.use(cardapioRoutes);
 
 const PORT = process.env.PORT || 5009;

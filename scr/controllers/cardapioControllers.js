@@ -12,9 +12,9 @@ export async function pegarCardapio(req, res) {
 }
 
 export async function cadastrarCardapio(req, res) {
-    const { id, title, items } = req.body;
+    const { id, title } = req.body;
 
-    const validate =  cardapioSchema.validate( {id, title, items} );  
+    const validate =  cardapioSchema.validate( {id, title} );  
 
     if (validate.error) {
         return res.status(422).send("Dados enviados incorretos, verifique e tente novamente")

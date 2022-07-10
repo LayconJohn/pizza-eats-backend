@@ -4,6 +4,7 @@ import { pedidoSchema } from '../schemas/pedidosSchema.js';
 export async function pegarAcompanhamento(req, res) {
     try {
         const acompanhamentos = await db.collection('acompanhamento').find().toArray();
+        res.locals.acompanhamentos = acompanhamentos;
         res.status(200).send(acompanhamentos);
     } catch (error) {
         console.error("Erro ao pegar o acompanhamento", error);

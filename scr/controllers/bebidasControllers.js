@@ -4,6 +4,7 @@ import { pedidoSchema } from '../schemas/pedidosSchema.js';
 export async function pegarBebidas(req, res) {
     try {
         const bebidas = await db.collection('bebidas').find().toArray();
+        res.locals.bebidas = bebidas
         res.status(200).send(bebidas);
     } catch (error) {
         console.error("Erro ao pegar as bebidas", error);
