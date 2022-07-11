@@ -1,5 +1,6 @@
 import db from '../databases/mongodb.js';
 import { pedidoSchema } from '../schemas/pedidosSchema.js';
+import { ObjectId } from 'mongodb';
 
 export async function pegarAcompanhamento(req, res) {
     try {
@@ -33,5 +34,35 @@ export async function adicionarAcompanhamento(req, res) {
     } catch (error) {
         console.error("Erro ao cadastrar o acompanhamento", error);
         res.status(500);
+    }
+}
+
+export async function atualizarAcompanhamento(req, res) {
+    const { id } = req.params;
+
+    try {
+        const acompanhamento = await db.collection("acompanhamento").findOne( {_id: new ObjectId(id)});
+
+        if (!acompanhamento) {
+            return res.status(404).send("Acompanhamento não encontrado");
+        }
+
+        await db.collection("acompanhamento").updateOne( {_id: acompanhamento._id}, {$set: req.body} );
+        res.status(200).send("Acompanhamento atualizado com sucesso");
+    } catch (error) {
+        console.error("Erro ao atualizar o acompanhamento", error);
+        res.sendStatus(500)
+    }
+}
+
+export async function deletarAcompanhamento(req, res) {
+    const { id } = req.params;
+
+    try {
+        await db.collection("acompanhamento").deleteOne( {_id: new ObjectId(id)});
+        res.status(200).send("Acompanhamento deleted successfully")
+    } catch (error) {
+        console.error("Erro ao deletar o acompanhamento", error);
+        res.sendStatus(500)
     }
 }
