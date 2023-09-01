@@ -30,10 +30,20 @@ async function update({ id, image, name, description, price }) {
     return await pizzaRepository.update({id: pizza._id, image, name, description, price})    
 }
 
+async function remove(id) {
+    const pizza = await pizzaRepository.findOne(id);
+    if (!pizza) {
+        throw notFoundError("pizza not found");
+    }
+
+    return await pizzaRepository.remove(pizza._id);
+}
+
 const pizzaService = {
     add,
     update,
     findAll,
+    remove,
 }
 
 export default pizzaService;

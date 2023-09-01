@@ -52,10 +52,12 @@ export async function deletarPizza(req, res) {
     const {id} = req.params;
 
     try {
-        await db.collection("pizzas").deleteOne( {id: new ObjectId(id)});
-        res.status(200).send("Pizza deletada com sucesso!");
+        const removedPizza = await pizzaService.remove(id);
+        res.status(200).send(removedPizza);
     } catch (error) {
-        console.error("Erro ao deletar os dados", error)
+        if (error.name === "NotFound") {
+            return res.status(error.status).send(error.message);
+        }
         res.sendStatus(500);
     }
 }

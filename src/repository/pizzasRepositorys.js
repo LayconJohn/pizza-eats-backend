@@ -16,18 +16,23 @@ async function update({ id, image, name, description, price }) {
 }
 
 async function findOne(id) {
-    return await db.collection("pizzas").findOne( {_id: new ObjectId(id)} );
+    return await db.collection("pizzas").findOne( {_id: ObjectId(id)} );
 }
 
 async function findAll() {
     return await db.collection("pizzas").find( ).toArray();
 }
 
+async function remove(id) {
+    return await db.collection("pizzas").deleteOne( {_id: ObjectId(id)});
+}
+
 const pizzaRepository = {
     create,
     update,
     findOne,
-    findAll
+    findAll,
+    remove,
 }
 
 export default pizzaRepository;
