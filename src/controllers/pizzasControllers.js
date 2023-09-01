@@ -3,28 +3,19 @@ import db from "../databases/mongodb.js";
 import { ObjectId } from "mongodb";
 
 import { pedidoSchema } from "../schemas/pedidosSchema.js";
+import pizzaService from "../services/pizzasServices.js";
 
 export async function adicionarPizza(req, res) {
     const { image, name, description, price } = req.body;
 
-    const validate = pedidoSchema.validate( { image, name, description, price } );
-
-    if (validate.error) {
-        return res.status(422).send("Dados enviados incorretos para adicionar uma nova pizza")
-    }
-
     try {
-        await db.collection("pizzas").insertOne( {
-            image: image,
-            name: name,
-            description: description,
-            price: price,
-            selected: false    
-        })
-        res.status(201).send("Pizza adicionada com sucesso")
+        const createdPizza = await pizzaService.add({ image, name, description, price });
+        return res.status(201).send(createdPizza);
     } catch (error) {
-        console.error("Erro ao tentar adicionar uma nova pizza ", error)
-        res.sendStatus(500)
+        if (error.name=="UnprocessableEntity") {
+            return res.status(error.status).send(error.message)
+        }
+        return res.sendStatus(500)
     }
 }
 
