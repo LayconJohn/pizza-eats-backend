@@ -21,11 +21,11 @@ export async function adicionarPizza(req, res) {
 
 export async function pegarPizza(req, res) {
     try {
-        const pizzas = await db.collection("pizzas").find( ).toArray();
+        const pizzas = await pizzaService.findAll();
         res.locals.pizzas = pizzas
-        res.status(200).send(pizzas);
+        return res.status(200).send(pizzas);
     } catch (error) {
-        console.error("Erro ao pegar as pizzas ", error);
+        return res.status(500).send({ error: "Internal Server Error" });
     }
     
 }

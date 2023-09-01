@@ -11,6 +11,10 @@ async function add({ image, name, description, price }) {
     return await pizzaRepository.create({image, name, description, price});;
 }
 
+async function findAll() {
+    return await pizzaRepository.findAll();
+}
+
 async function update({ id, image, name, description, price }) {
     const validate = pedidoSchema.validate({image, name, description, price}, {abortEarly: false});
     if (validate.error) {
@@ -29,6 +33,7 @@ async function update({ id, image, name, description, price }) {
 const pizzaService = {
     add,
     update,
+    findAll,
 }
 
 export default pizzaService;

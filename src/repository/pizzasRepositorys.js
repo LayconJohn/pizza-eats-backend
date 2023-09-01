@@ -19,10 +19,15 @@ async function findOne(id) {
     return await db.collection("pizzas").findOne( {_id: new ObjectId(id)} );
 }
 
+async function findAll() {
+    return await db.collection("pizzas").find( ).toArray();
+}
+
 const pizzaRepository = {
     create,
     update,
     findOne,
+    findAll
 }
 
 export default pizzaRepository;
