@@ -34,23 +34,16 @@ export async function atualizarPizza(req, res) {
     const { id } = req.params;
     const { image, name, description, price } = req.body;
 
-    const validate = pedidoSchema.validate( { image, name, description, price } );
-
-    if (validate.error) {
-        return res.status(422).send("Dados enviados incorretos para adicionar uma nova pizza")
-    }
-
     try {
-        const pizza = await db.collection("pizzas").findOne( {_id: new ObjectId(id)} );
-
-        if (!pizza) {
-            return res.status(404).send("Pizza não encontrada");
-        }
-
-        await db.collection("pizzas").updateOne( {_id: ObjectId(pizza._id) }, {$set: req.body} )
-        res.status(200).send("Pizza atualizada com sucesso!");
+        const updatedPizza = await pizzaService.update({ id, image, name, description, price })
+        res.status(200).send(updatedPizza);
     } catch (error) {
-        console.error("Erro ao atualizar os dados", error)
+        if (error.name === "NotFound") {
+            return res.status(error.status).send(error.message);
+        }
+        if (error.name=="UnprocessableEntity") {
+            return res.status(error.status).send(error.message)
+        }
         res.sendStatus(500);
     }
 }
