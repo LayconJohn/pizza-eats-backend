@@ -22,7 +22,7 @@ async function update({ id, image, name, description, price }) {
         const errors = validate.error.details.map( details => details.message);
         throw unprocessableEntityError(errors);
     }
-    
+
     const acompanhamento = await acompanhamentoRepository.findOne(id);
     if (!acompanhamento) {
         throw notFoundError("Acompanhamento not found");
@@ -31,10 +31,20 @@ async function update({ id, image, name, description, price }) {
     return await acompanhamentoRepository.update({ id: acompanhamento._id, image, name, description, price })
 }
 
+async function remove(id) {
+    const acompanhamento = await acompanhamentoRepository.findOne(id);
+    if (!acompanhamento) {
+        throw notFoundError("Acompanhamento not found");
+    }
+
+    return await acompanhamentoRepository.deleteOne(acompanhamento._id);
+}
+
 const acompanhamentoService = {
     getAll,
     add,
     update,
+    remove,
 }
 
 export default acompanhamentoService;

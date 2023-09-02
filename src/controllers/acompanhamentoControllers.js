@@ -48,10 +48,12 @@ export async function deletarAcompanhamento(req, res) {
     const { id } = req.params;
 
     try {
-        await db.collection("acompanhamento").deleteOne( {_id: new ObjectId(id)});
-        res.status(200).send("Acompanhamento deleted successfully")
+        const removedAcompanhamento = await acompanhamentoService.remove(id);
+        return res.status(200).send(removedAcompanhamento);
     } catch (error) {
-        console.error("Erro ao deletar o acompanhamento", error);
-        res.sendStatus(500)
+        if (error.name === "NotFound") {
+            return res.status(error.status).send(error.message);
+        }
+        return res.status(500).send({ error: "Internal Server Error" })
     }
 }

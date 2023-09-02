@@ -23,11 +23,16 @@ async function update({ id, image, name, description, price }) {
     return await db.collection("acompanhamento").updateOne( {_id: id}, {$set: {image, name, description, price}} );
 }
 
+async function deleteOne(id) {
+    return await db.collection("acompanhamento").deleteOne( {_id: new ObjectId(id)});
+}
+
 const acompanhamentoRepository = {
     findAll,
     create,
     findOne,
     update,
+    deleteOne,
 }
 
 export default acompanhamentoRepository;
