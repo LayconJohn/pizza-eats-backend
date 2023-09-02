@@ -1,6 +1,6 @@
 import db from '../databases/mongodb.js';
 import { pedidoSchema } from '../schemas/pedidosSchema.js';
-import { ObjectId } from 'mongodb';
+
 
 import acompanhamentoService from "../services/acompanhamentoServices.js";
 
@@ -19,7 +19,7 @@ export async function adicionarAcompanhamento(req, res) {
 
     try {
         const createdAcompanhamento = await acompanhamentoService.add({ image, name, description, price });
-        res.status(201).send(createdAcompanhamento);
+        return res.status(201).send(createdAcompanhamento);
     } catch (error) {
         if (error.name === "UnprocessableEntity") {
             return res.status(error.code).send(error.message);
@@ -30,19 +30,17 @@ export async function adicionarAcompanhamento(req, res) {
 
 export async function atualizarAcompanhamento(req, res) {
     const { id } = req.params;
+    const { image, name, description, price } = req.body;
 
     try {
-        const acompanhamento = await db.collection("acompanhamento").findOne( {_id: new ObjectId(id)});
 
-        if (!acompanhamento) {
-            return res.status(404).send("Acompanhamento não encontrado");
-        }
-
-        await db.collection("acompanhamento").updateOne( {_id: acompanhamento._id}, {$set: req.body} );
-        res.status(200).send("Acompanhamento atualizado com sucesso");
+        const updatedAcompanhamento = await acompanhamentoService.update( { id, image, name, description, price });
+        return res.status(200).send(updatedAcompanhamento);
     } catch (error) {
-        console.error("Erro ao atualizar o acompanhamento", error);
-        res.sendStatus(500)
+        if (error.name === "UnprocessableEntity" || error.name === "NotFound") {
+            return res.status(error.status).send(error.message);
+        }
+        return res.status(500).send({ error: "Internal Server Error" })
     }
 }
 
