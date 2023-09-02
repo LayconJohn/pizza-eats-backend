@@ -23,11 +23,16 @@ async function update({ id, image, name, description, price  }) {
     return await db.collection("bebidas").updateOne( {_id: id}, {$set: {image, name, description, price}});
 }
 
+async function deleteOne(id) {
+    return await db.collection("bebidas").deleteOne( {_id: new ObjectId(id)});
+}
+
 const bebidaRepository = {
     findAll,
     create,
     findOne,
     update,
+    deleteOne,
 }
 
 export default bebidaRepository;

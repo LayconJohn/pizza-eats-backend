@@ -2,14 +2,15 @@ import db from '../databases/mongodb.js';
 import { pedidoSchema } from '../schemas/pedidosSchema.js';
 import { ObjectId } from 'mongodb';
 
+import acompanhamentoService from "../services/acompanhamentoServices.js";
+
 export async function pegarAcompanhamento(req, res) {
     try {
-        const acompanhamentos = await db.collection('acompanhamento').find().toArray();
+        const acompanhamentos = await acompanhamentoService.getAll();
         res.locals.acompanhamentos = acompanhamentos;
         res.status(200).send(acompanhamentos);
     } catch (error) {
-        console.error("Erro ao pegar o acompanhamento", error);
-        res.status(500);
+        return res.status(500).send({ error: "Internal Server Error" })
     }
 }
 

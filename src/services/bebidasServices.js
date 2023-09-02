@@ -31,10 +31,20 @@ async function updateOne({ id, image, name, description, price }) {
     return await bebidaRepository.update({id: bebida._id, image, name, description, price});
 }
 
+async function remove(id) {
+    const bebida = await bebidaRepository.findOne(id);
+    if (!bebida) {
+        throw notFoundError("Bebida not found");
+    }
+
+    return await bebidaRepository.deleteOne(id);
+}
+
 const bebidaService = {
     findAll,
     add,
     updateOne,
+    remove,
 }
 
 export default bebidaService;

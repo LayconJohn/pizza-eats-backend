@@ -1,7 +1,3 @@
-import { ObjectId } from 'mongodb';
-import db from '../databases/mongodb.js';
-import { pedidoSchema } from '../schemas/pedidosSchema.js';
-
 import bebidaService from "../services/bebidasServices.js";
 
 export async function pegarBebidas(req, res) {
@@ -50,11 +46,13 @@ export async function deletarBebida(req, res) {
     const { id } = req.params;
 
     try {
-        await db.collection("bebidas").deleteOne( {_id: new ObjectId(id)})
-        res.status(200).send("Bebida deletada com sucesso!");
+        const removedBebida = await bebidaService.remove(id);
+        res.status(200).send(removedBebida);
     } catch (error) {
-        console.error("Erro ao atualizar as bebidas", error);
-        res.sendStatus(500);
+        if (error.name === "NotFound") { 
+            return res.status(error.status).send(error.message);
+        }
+        return res.status(500).send({ error: "Internal Servier Error" });
     }
 
 }
