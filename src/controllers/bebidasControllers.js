@@ -17,24 +17,14 @@ export async function pegarBebidas(req, res) {
 export async function adicionarBebidas(req, res) {
     const { image, name, description, price } = req.body;
 
-    const validate = pedidoSchema.validate( {image, name, description, price} );
-
-    if (validate.error) {
-        return res.status(422).send("Dados inválidos")
-    }
-
     try {
-        await db.collection("bebidas").insertOne( {
-            image: image,
-            name: name,
-            description: description,
-            price: price,
-            selected: false
-        } )
-        res.status(201).send("Bebida cadastrada com sucesso!")
+        const createdBebida = await bebidaService.add({ image, name, description, price });
+        return res.status(201).send(createdBebida);
     } catch (error) {
-        console.error("Erro ao cadastrar uma bebida")
-        res.sendStatus(500);
+        if (error.name === "UnprocessableEntity") {
+            return res.status(error.status).send(error.message);
+        }
+        return res.status(500).send({ error: "Internal Servier Error" });
     }
 }
 
