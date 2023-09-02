@@ -30,19 +30,19 @@ export async function adicionarBebidas(req, res) {
 
 export async function atualizarBebida(req, res) {
     const { id } = req.params;
+    const { image, name, description, price } = req.body;
 
     try {
-        const bebida = await db.collection("bebidas").findOne( {_id: new ObjectId(id)});
-
-        if (!bebida) {
-            res.status(404).send("Bebida não encontrada")
-        }
-
-        await db.collection("bebidas").updateOne( {_id: bebida._id}, {$set: req.body})
-        res.status(200).send("Bebida atualizada com sucesso!");
+        const updatedBebida = await bebidaService.updateOne({ id, image, name, description, price });
+        res.status(200).send(updatedBebida);
     } catch (error) {
-        console.error("Erro ao atualizar as bebidas", error);
-        res.sendStatus(500);
+        if (error.name === "NotFound") { 
+            return res.status(error.status).send(error.message);
+        }
+        if (error.name === "UnprocessableEntity") {
+            return res.status(error.status).send(error.message);
+        }
+        return res.status(500).send({ error: "Internal Servier Error" });
     }
 }
 
