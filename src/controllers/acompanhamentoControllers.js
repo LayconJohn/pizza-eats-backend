@@ -17,24 +17,14 @@ export async function pegarAcompanhamento(req, res) {
 export async function adicionarAcompanhamento(req, res) {
     const { image, name, description, price } = req.body;
 
-    const validate = pedidoSchema.validate( { image, name, description, price} );
-
-    if (validate.error) {
-        return res.status(422).send("Dados do acompanhamento inválidos");
-    }
-
     try {
-        await db.collection("acompanhamento").insertOne( {
-            image: image,
-            name: name,
-            description: description,
-            price: price,
-            selected: false
-        })
-        res.status(201).send("Acompanhamento adicionado com sucesso");
+        const createdAcompanhamento = await acompanhamentoService.add({ image, name, description, price });
+        res.status(201).send(createdAcompanhamento);
     } catch (error) {
-        console.error("Erro ao cadastrar o acompanhamento", error);
-        res.status(500);
+        if (error.name === "UnprocessableEntity") {
+            return res.status(error.code).send(error.message);
+        }
+        return res.status(500).send({ error: "Internal Server Error" })
     }
 }
 
