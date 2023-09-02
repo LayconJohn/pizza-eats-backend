@@ -2,13 +2,15 @@ import { ObjectId } from 'mongodb';
 import db from '../databases/mongodb.js';
 import { pedidoSchema } from '../schemas/pedidosSchema.js';
 
+import bebidaService from "../services/bebidasServices.js";
+
 export async function pegarBebidas(req, res) {
     try {
-        const bebidas = await db.collection('bebidas').find().toArray();
-        res.locals.bebidas = bebidas
+        const bebidas = await bebidaService.findAll();
+        res.locals.bebidas = bebidas;
         res.status(200).send(bebidas);
     } catch (error) {
-        console.error("Erro ao pegar as bebidas", error);
+        return res.status(500).send({ error: "Internal Servier Error" });
     }
 }
 
