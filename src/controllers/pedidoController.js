@@ -2,7 +2,7 @@ import pedidoService from "../services/pedidoService.js";
 
 export async function postPedido(req, res) {
     const { image, name, description, price, pedidoId } = req.body;
-    const { type } = req.params;
+    const { type } = req.query;
 
     try {
         const response = await pedidoService.add({ image, name, description, price, type, pedidoId });
@@ -16,8 +16,9 @@ export async function postPedido(req, res) {
 }
 
 export async function getPedido(req, res) {
+    const { type } = req.query;
     try {
-        const response = await pedidoService.findAll();
+        const response = await pedidoService.findAll(type);
         res.locals.pedidos = response
         return res.status(200).send(response);
     } catch (error) {
@@ -29,7 +30,7 @@ export async function getPedido(req, res) {
 export async function putPedido(req, res) {
     const { id } = req.params;
     const { image, name, description, price, pedidoId } = req.body;
-    const { type } = req.params;
+    const { type } = req.query;
 
     try {
         const response = await pedidoService.update({ id, image, name, description, price, type, pedidoId })

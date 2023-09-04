@@ -11,8 +11,8 @@ async function add({ image, name, description, price, type, pedidoId }) {
     return await pedidoRepository.create({image, name, description, price, type, pedidoId});
 }
 
-async function findAll() {
-    return await pedidoRepository.findAll();
+async function findAll(type) {
+    return await pedidoRepository.findAll(type);
 }
 
 async function update({ id, image, name, description, price, type, pedidoId }) {

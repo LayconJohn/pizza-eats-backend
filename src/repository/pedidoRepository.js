@@ -21,8 +21,8 @@ async function findOne(id) {
     return await db.collection("pedidos").findOne( {_id: ObjectId(id)} );
 }
 
-async function findAll() {
-    return await db.collection("pedidos").find( ).toArray();
+async function findAll(type) {
+    return await db.collection("pedidos").find({type}).toArray();
 }
 
 async function remove(id) {
