@@ -5,4 +5,5 @@ export const pedidoSchema = joi.object( {
     name: joi.string().required(),
     description: joi.string().required(),
     price: joi.string().required(),
+    type: joi.string().valid("pizza", "bebida", "acompanhamento").required()
 });

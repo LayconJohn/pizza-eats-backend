@@ -1,8 +1,3 @@
-import db from "../databases/mongodb.js";
-
-import { ObjectId } from "mongodb";
-
-import { pedidoSchema } from "../schemas/pedidosSchema.js";
 import pizzaService from "../services/pizzasServices.js";
 
 export async function adicionarPizza(req, res) {
