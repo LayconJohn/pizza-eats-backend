@@ -2,6 +2,9 @@ import db from "../databases/mongodb.js";
 import { ObjectId } from "mongodb";
 
 async function create({ image, name, description, price, type, pedidoId }) {
+    if (type === "todos") {
+        return "Selcione pizza, bebida ou acompanhamento"
+    }
     return await db.collection("pedidos").insertOne({
         image,
         name,

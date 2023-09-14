@@ -8,7 +8,7 @@ export async function postPedido(req, res) {
         const response = await pedidoService.add({ image, name, description, price, type, pedidoId });
         return res.status(201).send(response);
     } catch (error) {
-        if (error.name=="UnprocessableEntity") {
+        if (error.name=="UnprocessableEntity" || error.name=="BadRequest") {
             return res.status(error.status).send(error.message)
         }
         return res.status(500).send({ error: "Internal Server Error" });

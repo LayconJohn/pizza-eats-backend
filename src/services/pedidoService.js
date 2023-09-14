@@ -1,5 +1,5 @@
 import { pedidoSchema } from "../schemas/pedidosSchema.js";
-import { unprocessableEntityError, notFoundError } from "../errors/index.error.js";
+import { unprocessableEntityError, notFoundError, badRequestError } from "../errors/index.error.js";
 import pedidoRepository from "../repository/pedidoRepository.js";
 
 async function add({ image, name, description, price, type, pedidoId }) {
@@ -7,6 +7,10 @@ async function add({ image, name, description, price, type, pedidoId }) {
     if (validate.error) {
         const errors = validate.error.details.map(details => details.message);
         throw unprocessableEntityError(errors);
+    }
+    if (type == "todos") {
+        console.log("errorr");
+        throw badRequestError("Insira um dos items válidos: pizza, bebida ou acompanhamento");
     }
     return await pedidoRepository.create({image, name, description, price, type, pedidoId});
 }
