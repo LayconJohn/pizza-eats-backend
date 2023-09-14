@@ -22,6 +22,9 @@ async function findOne(id) {
 }
 
 async function findAll(type) {
+    if (type === "todos") {
+        return await db.collection("pedidos").find().toArray();
+    }
     return await db.collection("pedidos").find({type}).toArray();
 }
 
