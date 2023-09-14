@@ -9,7 +9,6 @@ async function add({ image, name, description, price, type, pedidoId }) {
         throw unprocessableEntityError(errors);
     }
     if (type == "todos") {
-        console.log("errorr");
         throw badRequestError("Insira um dos items válidos: pizza, bebida ou acompanhamento");
     }
     return await pedidoRepository.create({image, name, description, price, type, pedidoId});
