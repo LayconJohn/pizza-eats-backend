@@ -5,7 +5,6 @@ import dotenv from 'dotenv';
 import cardapioRoutes from "./routes/cardapioRoutes.js";
 import pizzaRoutes from "./routes/pizzasRoutes.js";
 import bebidaRoutes from "./routes/bebidasRoutes.js";
-import acompanhamentoRoutes from "./routes/acompanhamentoRoutes.js";
 import pedidosRoute from "./routes/pedidoRoute.js";
 
 const app = express();
@@ -16,7 +15,6 @@ app.use(express.json());
 
 app.use(pizzaRoutes);
 app.use(bebidaRoutes);
-app.use(acompanhamentoRoutes);
 app.use(cardapioRoutes);
 app.use(pedidosRoute);
 
