@@ -9,11 +9,20 @@ export async function postUser(req, res) {
         const createdUser = await authService.add({ username, email, password, passwordConfirmation });
         return res.status(201).send(createdUser);
     } catch (error) {
-        console.log(error);
-        if (error.name === "UnprocessableEntity") {
+        if (error.name === "UnprocessableEntity" || error.name==="Unauthorized") {
             return res.status(error.status).send(error.message);
         }
         return res.status(500).send({ error: "internal server Error"});
+    }
+}
+
+export async function loginUser(req, res) {
+    const { email, password } = req.body;
+
+    try {
+        
+    } catch (error) {
+        
     }
 }
 
