@@ -1,11 +1,12 @@
 import { Router } from "express";
 import { getPedido, postPedido, putPedido, deletePedido } from "../controllers/pedidoController.js";
+import { verifyJWT } from "../middlewares/authMiddleware.js";
 
 const router = Router();
 
-router.post('/pedido', postPedido);
-router.get('/pedido', getPedido);
-router.put('/pedido/:id', putPedido);
-router.delete('/pedido/:id', deletePedido);
+router.post('/pedido', verifyJWT, postPedido);
+router.get('/pedido', verifyJWT, getPedido);
+router.put('/pedido/:id', verifyJWT, putPedido);
+router.delete('/pedido/:id', verifyJWT, deletePedido);
 
 export default router;

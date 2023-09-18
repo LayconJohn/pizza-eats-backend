@@ -17,6 +17,8 @@ export async function postPedido(req, res) {
 
 export async function getPedido(req, res) {
     const { type } = req.query;
+    const { user } = req.headers;
+    
     try {
         const response = await pedidoService.findAll(type);
         res.locals.pedidos = response

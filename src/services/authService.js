@@ -38,8 +38,14 @@ async function login({ email, password }) {
         if (!checkPassword) {
             throw badRequestError("Email or password invalid");
         }
-        const token = jwt.sign({id: user.id}, process.env.SECRET, {
-            expiresIn: 30000
+        const token = jwt.sign(
+            {
+                username: user.username,
+                email: user.email
+            }, 
+            process.env.SECRET, 
+            {
+            expiresIn: '60m'
         })
         return token;
     } else {
