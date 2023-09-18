@@ -20,9 +20,14 @@ export async function loginUser(req, res) {
     const { email, password } = req.body;
 
     try {
-        
+        const token = await authService.login({ email, password });
+        return res.status(200).send({ token: token });
     } catch (error) {
-        
+        if (error.name === "BadRequest") {
+            return res.status(error.status).send(error.message);
+        }
+        console.log(error)
+        return res.status(500).send({ error: "internal server Error"});
     }
 }
 

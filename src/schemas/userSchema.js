@@ -9,6 +9,12 @@ const createUser = joi.object( {
     passwordConfirmation: joi.any().valid(joi.ref('password')).required()
 });
 
+const loginUser = joi.object({
+    email: joi.string().required(),
+    password: joi.string().required()
+});
+
 export const userSchema = {
     createUser,
+    loginUser,
 };
