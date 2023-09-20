@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "target": "es2022",
+        "outDir": "./dist",
+        "esModuleInterop": true,
+        "module": "es2022",
+        "baseUrl": "./",
+        "moduleResolution": "node",
+        "paths": {
+            "joi": [
+                "/node_modules/joi/dist/joi-browser.min.js"
+            ]
+        }
+    },
+    "ts-node": {
+        "esm": true
+    }
+}
