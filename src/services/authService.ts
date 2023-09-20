@@ -1,17 +1,18 @@
 import bcrypt from "bcrypt";
-import { userSchema } from "../schemas/userSchema.js";
+import { userSchema } from "../models/schemas/userSchema.js";
 import { unprocessableEntityError, unauthorizedError, badRequestError } from "../errors/index.error.js";
 import authRepository from "../repository/authRepository.js";
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
+import { CreateUser } from "src/models/dto/user/createUserDto.js";
 
 dotenv.config();
 
 
-async function add({ username, email, password, passwordConfirmation }) {
+async function add({ username, email, password, passwordConfirmation }: CreateUser) {
     const validation = userSchema.createUser.validate({ username, email, password, passwordConfirmation }, {abortEarly:false});
     if (validation.error) {
-        const errors = validation.error.details.map(details => details.message);
+        const errors: string[] = validation.error.details.map(details => details.message);
         throw unprocessableEntityError(errors);
     }
 

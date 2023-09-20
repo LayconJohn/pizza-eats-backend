@@ -1,9 +1,11 @@
 import dotenv from 'dotenv';
+import { Request, Response } from 'express';
+import { CreateUser } from 'src/models/dto/user/createUserDto.js';
 import authService from '../services/authService.js';
 dotenv.config();
 
-export async function postUser(req, res) {
-    const { username, email, password, passwordConfirmation } = req.body;
+export async function postUser(req: Request, res: Response) {
+    const { username, email, password, passwordConfirmation } = req.body as CreateUser;
 
     try {
         const createdUser = await authService.add({ username, email, password, passwordConfirmation });

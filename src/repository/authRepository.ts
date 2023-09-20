@@ -1,7 +1,9 @@
 import db from "../databases/mongodb.js";
+import { CreateInstance } from "src/models/dto/mongodb/createInstanceDto.js";
 import { ObjectId } from "mongodb";
+import { CreateUser } from "src/models/dto/user/createUserDto.js";
 
-async function create({ username, email, encryptedPassword }) {
+async function create({ username, email, encryptedPassword }): Promise<CreateInstance>  {
     return await db.collection("users").insertOne({
         username,
         email,
@@ -9,7 +11,7 @@ async function create({ username, email, encryptedPassword }) {
     });
 }
 
-async function findByEmail(email) {
+async function findByEmail(email: string) {
     return await db.collection("users").findOne({ email: email });
 }
 

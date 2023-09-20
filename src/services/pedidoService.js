@@ -1,4 +1,4 @@
-import { pedidoSchema } from "../schemas/pedidosSchema.js";
+import { pedidoSchema } from "../models/schemas/pedidosSchema.js";
 import { unprocessableEntityError, notFoundError, badRequestError } from "../errors/index.error.js";
 import pedidoRepository from "../repository/pedidoRepository.js";
 
