@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import { Request, Response } from 'express';
-import { CreateUser } from 'src/models/dto/user/createUserDto.js';
+import { CreateUser, LoginUser } from 'src/models/dto/user/index.dto';
 import authService from '../services/authService.js';
 dotenv.config();
 
@@ -18,8 +18,8 @@ export async function postUser(req: Request, res: Response) {
     }
 }
 
-export async function loginUser(req, res) {
-    const { email, password } = req.body;
+export async function loginUser(req: Request, res: Response) {
+    const { email, password } = req.body as LoginUser;
 
     try {
         const token = await authService.login({ email, password });

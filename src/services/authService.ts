@@ -5,6 +5,7 @@ import authRepository from "../repository/authRepository.js";
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import { CreateUser } from "src/models/dto/user/createUserDto.js";
+import { LoginUser } from "src/models/dto/user/loginUserDto.js";
 
 dotenv.config();
 
@@ -26,10 +27,10 @@ async function add({ username, email, password, passwordConfirmation }: CreateUs
     return await authRepository.create({ username, email, encryptedPassword });
 }
 
-async function login({ email, password }) {
+async function login({ email, password }: LoginUser) {
     const validation = userSchema.loginUser.validate({ email, password }, {abortEarly: false});
     if (validation.error) {
-        const errors = validation.error.details.map(details => details.message);
+        const errors: string[] = validation.error.details.map(details => details.message);
         throw unprocessableEntityError(errors);
     }
 
