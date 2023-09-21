@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { getPedido, postPedido, putPedido, deletePedido } from "../controllers/pedidoController.js";
-import { verifyJWT } from "../middlewares/authMiddleware.js";
+import { verifyJWT } from "../middlewares/authMiddleware";
 
 const router = Router();
 
