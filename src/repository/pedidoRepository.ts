@@ -2,6 +2,7 @@ import db from "../databases/mongodb.js";
 import { ObjectId } from "mongodb";
 import { CreatePedido } from "../models/dto/pedido/index.dto";
 import { CreateInstance } from "src/models/dto/mongodb/createInstanceDto.js";
+import { GetPedido } from "src/models/dto/pedido/getPedidoDto.js";
 
 async function create({ image, name, description, price, type, pedidoId }: CreatePedido): Promise<string|CreateInstance> {
     if (type === "todos") {
@@ -26,7 +27,7 @@ async function findOne(id) {
     return await db.collection("pedidos").findOne( {_id: new ObjectId(id)} );
 }
 
-async function findAll(type) {
+async function findAll(type: string): Promise<GetPedido> {
     if (type === "todos") {
         return await db.collection("pedidos").find().toArray();
     }

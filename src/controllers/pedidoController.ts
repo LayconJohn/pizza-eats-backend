@@ -19,9 +19,9 @@ export async function postPedido(req: Request, res: Response){
     }
 }
 
-export async function getPedido(req, res) {
+export async function getPedido(req: Request, res: Response) {
     const { type } = req.query;
-    const { user } = req.headers;
+    //const { user } = req.headers;
     
     try {
         const response = await pedidoService.findAll(type);

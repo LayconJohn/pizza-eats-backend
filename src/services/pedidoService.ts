@@ -19,7 +19,7 @@ async function add({ image, name, description, price, type, pedidoId }: CreatePe
     return await pedidoRepository.create({image, name, description, price, type, pedidoId});
 }
 
-async function findAll(type) {
+async function findAll(type: string) {
     return await pedidoRepository.findAll(type);
 }
 
