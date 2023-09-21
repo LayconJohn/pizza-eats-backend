@@ -1,7 +1,11 @@
+import { Request, Response } from "express";
+import { CreatePedido } from "../models/dto/pedido/index.dto.js";
 import pedidoService from "../services/pedidoService.js";
 
-export async function postPedido(req, res) {
-    const { image, name, description, price, pedidoId } = req.body;
+type AddPedido = Omit<CreatePedido, "type">;
+
+export async function postPedido(req: Request, res: Response){
+    const { image, name, description, price, pedidoId } = req.body as AddPedido;
     const { type } = req.query;
 
     try {

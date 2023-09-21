@@ -1,7 +1,9 @@
 import db from "../databases/mongodb.js";
 import { ObjectId } from "mongodb";
+import { CreatePedido } from "../models/dto/pedido/index.dto";
+import { CreateInstance } from "src/models/dto/mongodb/createInstanceDto.js";
 
-async function create({ image, name, description, price, type, pedidoId }) {
+async function create({ image, name, description, price, type, pedidoId }: CreatePedido): Promise<string|CreateInstance> {
     if (type === "todos") {
         return "Selcione pizza, bebida ou acompanhamento"
     }
@@ -17,11 +19,11 @@ async function create({ image, name, description, price, type, pedidoId }) {
 }
 
 async function update({ id, image, name, description, price, type, pedidoId }) {
-    return await db.collection("pedidos").updateOne( {_id: ObjectId(id) }, {$set: {image, name, description, price, type, pedidoId}} )
+    return await db.collection("pedidos").updateOne( {_id: new ObjectId(id) }, {$set: {image, name, description, price, type, pedidoId}} )
 }
 
 async function findOne(id) {
-    return await db.collection("pedidos").findOne( {_id: ObjectId(id)} );
+    return await db.collection("pedidos").findOne( {_id: new ObjectId(id)} );
 }
 
 async function findAll(type) {
@@ -32,7 +34,7 @@ async function findAll(type) {
 }
 
 async function remove(id) {
-    return await db.collection("pedidos").deleteOne( {_id: ObjectId(id)});
+    return await db.collection("pedidos").deleteOne( {_id: new ObjectId(id)});
 }
 
 const pedidoRepository = {

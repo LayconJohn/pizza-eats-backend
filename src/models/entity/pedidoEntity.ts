@@ -3,7 +3,7 @@ export type Pedido = {
     image: string;
     name: string;
     description: string;
-    price: number;
+    price: number | string;
     pedidoId: string | number;
     type: string;
 }

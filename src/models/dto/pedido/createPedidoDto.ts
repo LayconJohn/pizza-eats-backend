@@ -1,4 +1,4 @@
 import { Pedido } from "src/models/entity/pedidoEntity";
 
-export interface CreateUser extends Pedido {
+export interface CreatePedido extends Pedido {
 }
