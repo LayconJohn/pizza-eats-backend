@@ -1,15 +1,15 @@
 import { Request, Response } from "express";
-import { CreatePedido } from "../models/dto/pedido/index.dto.js";
-import pedidoService from "../services/pedidoService.js";
+import { CreatePedido } from "../models/dto/pedido/index.dto";
+import pedidoService from "../services/pedidoService";
 
-type AddPedido = Omit<CreatePedido, "type">;
+type UpsertPedido = Omit<CreatePedido, "type">;
 
 export async function postPedido(req: Request, res: Response){
-    const { image, name, description, price, pedidoId } = req.body as AddPedido;
+    const { image, name, description, price, pedidoId } = req.body as UpsertPedido;
     const { type } = req.query;
 
     try {
-        const response = await pedidoService.add({ image, name, description, price, type, pedidoId });
+        const response = await pedidoService.add({ image, name, description, price, type: type.toString(), pedidoId });
         return res.status(201).send(response);
     } catch (error) {
         if (error.name=="UnprocessableEntity" || error.name=="BadRequest") {
@@ -24,7 +24,7 @@ export async function getPedido(req: Request, res: Response) {
     //const { user } = req.headers;
     
     try {
-        const response = await pedidoService.findAll(type);
+        const response = await pedidoService.findAll(type.toString());
         res.locals.pedidos = response
         return res.status(200).send(response);
     } catch (error) {
@@ -33,13 +33,13 @@ export async function getPedido(req: Request, res: Response) {
     
 }
 
-export async function putPedido(req, res) {
+export async function putPedido(req: Request, res: Response) {
     const { id } = req.params;
-    const { image, name, description, price, pedidoId } = req.body;
+    const { image, name, description, price, pedidoId } = req.body as UpsertPedido;
     const { type } = req.query;
 
     try {
-        const response = await pedidoService.update({ id, image, name, description, price, type, pedidoId })
+        const response = await pedidoService.update({ id, image, name, description, price, type: type.toString(), pedidoId })
         res.status(200).send(response);
     } catch (error) {
         if (error.name === "NotFound") {

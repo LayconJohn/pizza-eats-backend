@@ -1,9 +1,8 @@
-import { MongoClient } from "mongodb";
+import { Db, MongoClient } from "mongodb";
 import dotenv from "dotenv";
 
 dotenv.config();
-
-let db = null;
+let db: Db | null = null;
 
 const mongoClient = new MongoClient(process.env.MONGO_URL);
 

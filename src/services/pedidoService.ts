@@ -2,12 +2,11 @@ import { pedidoSchema } from "../models/schemas/pedidosSchema";
 import { unprocessableEntityError, notFoundError, badRequestError } from "../errors/index.error.js";
 import pedidoRepository from "../repository/pedidoRepository";
 import { CreatePedido } from "../models/dto/pedido/index.dto.js";
-import { CreateInstance } from "src/models/dto/mongodb/createInstanceDto.js";
 
 type AddPedido = Omit<CreatePedido, "type">;
 
 
-async function add({ image, name, description, price, type, pedidoId }: CreatePedido): Promise<string|CreateInstance> {
+async function add({ image, name, description, price, type, pedidoId }: CreatePedido) {
     const validate = pedidoSchema.validate({image, name, description, price, type, pedidoId }, {abortEarly: false});
     if (validate.error) {
         const errors: string[] = validate.error.details.map(details => details.message);

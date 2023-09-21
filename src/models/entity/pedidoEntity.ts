@@ -1,5 +1,7 @@
+import { ObjectId } from "mongodb";
+
 export type Pedido = {
-    id?: string | number;
+    id?: string | number | ObjectId;
     image: string;
     name: string;
     description: string;

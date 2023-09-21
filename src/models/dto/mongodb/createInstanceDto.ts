@@ -1,6 +1,6 @@
+import { MongoUpsertEntity } from "../../entity/MongoUpsertEntity";
 
 
-export interface CreateInstance {
-    acknowledged: boolean;
+export interface CreateInstance extends MongoUpsertEntity{
     insertedId: string;
 }
