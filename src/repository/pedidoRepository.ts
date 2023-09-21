@@ -32,7 +32,7 @@ async function findAll(type: string) {
     return await db.collection("pedidos").find({type}).toArray();
 }
 
-async function remove(id) {
+async function remove(id: ObjectId) {
     return await db.collection("pedidos").deleteOne( {_id: new ObjectId(id)});
 }
 

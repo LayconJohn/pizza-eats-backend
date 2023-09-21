@@ -2,6 +2,7 @@ import { pedidoSchema } from "../models/schemas/pedidosSchema";
 import { unprocessableEntityError, notFoundError, badRequestError } from "../errors/index.error.js";
 import pedidoRepository from "../repository/pedidoRepository";
 import { CreatePedido } from "../models/dto/pedido/index.dto.js";
+import { ObjectId } from "mongodb";
 
 type AddPedido = Omit<CreatePedido, "type">;
 
@@ -37,7 +38,7 @@ async function update({ id, image, name, description, price, type, pedidoId }) {
     return await pedidoRepository.update({id: pedido._id, image, name, description, price, type, pedidoId})    
 }
 
-async function remove(id) {
+async function remove(id: string) {
     const pedido = await pedidoRepository.findOne(id);
     if (!pedido) {
         throw notFoundError("Pedido not found");

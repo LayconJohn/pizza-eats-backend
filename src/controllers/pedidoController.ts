@@ -52,7 +52,7 @@ export async function putPedido(req: Request, res: Response) {
     }
 }
 
-export async function deletePedido(req, res) {
+export async function deletePedido(req: Request, res: Response) {
     const {id} = req.params;
 
     try {
